@@ -13,6 +13,12 @@ public class HigherOrderFunction {
 	// A letter being different, doesn't change the underlying functionality
 	
 	// A higher order function
+	// String parameter letter here, is cached in the lexical scope
+	// When the filter() method will invoke the Predicate<T> return by the higher order function
+	// It is clear that name will one of the element from the list in the context
+	// But letter, with what value it will be binding to whenever the Predicate<T> is executed?
+	// Java, reaches over to the scope of the definition of this lambda expression and figure out the value
+	// This is called lexical scoping
 	public static Predicate<String> nameStartsWithLetter(final String letter) {
 		return name -> name.startsWith(letter);
 	}
@@ -27,6 +33,10 @@ public class HigherOrderFunction {
 		// nameStartsWithLetter() method here, accepts a String argument named as letter
 		// and returns a Predicate<T> which is nothing but a lambda expression yielding boolean
 		// nameStartsWithLetter() method is returning an anonymous function, thus a higher order function
+		// The lambda expression here will access to local variables in the scope of nameStartsWithLetter()
+		// Though Java doesn't enforce, the local variables have to be final or effectively final
+		// effectively final means, if we try to alter the local variables accessed by lambda expression
+		// it will throw a compile time error
 		final List<String> friendsStartWithB = friends
 												.stream()
 												.filter(nameStartsWithLetter("B"))
